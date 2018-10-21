@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.arnavgohil.mbf.Third"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:padding="16dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="383dp"
+        android:layout_height="342dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_gravity="center"
+        android:contentDescription="TODO" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="SEND"
+        android:onClick="cl"/>
+
+</LinearLayout>
