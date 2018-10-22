@@ -28,14 +28,10 @@ import static org.opencv.core.Core.absdiff;
 public class Third extends AppCompatActivity {
 
     public static boolean imgch;
-    TextView tv,qwerty;
-    File imgFile,file;
+    TextView tv;
+    File imgFile;
     Bitmap myBitmap,savedBitmap,phd;
-    Uri img;
-    String ag;
     Mat imgToProcess1=new Mat(),imgToProcess2=new Mat(),imgToProcess=new Mat(),abc=new Mat();
-
-
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 
