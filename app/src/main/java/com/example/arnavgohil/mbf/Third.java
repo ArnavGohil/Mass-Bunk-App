@@ -33,40 +33,31 @@ public class Third extends AppCompatActivity {
     Bitmap myBitmap,savedBitmap,phd;
     Uri img;
     String ag;
+    Mat imgToProcess1=new Mat(),imgToProcess2=new Mat(),imgToProcess=new Mat(),abc=new Mat();
 
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
-                {
-                    Log.i("OpenCV", "OpenCV loaded successfully");
                     int width = myBitmap.getWidth();
                     int height = myBitmap.getHeight();
-                    Mat imgToProcess1 = new Mat(height, width, CvType.CV_8UC4);
-                    Mat  imgToProcess2 = new Mat(height, width, CvType.CV_8UC4);
-                    Mat  imgToProcess = new Mat(height, width, CvType.CV_8UC4);
-                    Mat abc=new Mat();
-                    Utils.bitmapToMat(myBitmap, imgToProcess1);
-                    Utils.bitmapToMat(savedBitmap, imgToProcess2);
-                    absdiff(imgToProcess1, imgToProcess2, imgToProcess);
-                    Utils.bitmapToMat(phd,abc);
-                    if(imgToProcess==abc)
-                    {
-                        imgch=true;
-                    }
-                    else
-                    {
-                        imgch=false;
-                    }
+                      imgToProcess1 = new Mat(height, width, CvType.CV_8UC4);
+                      imgToProcess2 = new Mat(height, width, CvType.CV_8UC4);
+                      imgToProcess = new Mat(height, width, CvType.CV_8UC4);
+                      Utils.bitmapToMat(myBitmap, imgToProcess1);
+                      Utils.bitmapToMat(savedBitmap, imgToProcess2);
+                      absdiff(imgToProcess1, imgToProcess2, imgToProcess);
+                      Utils.bitmapToMat(phd,abc);
+                      imgch = imgToProcess == abc;
 
-                } break;
+                 break;
                 default:
-                {
                     super.onManagerConnected(status);
-                } break;
+                    break;
             }
         }
     };
@@ -76,7 +67,6 @@ public class Third extends AppCompatActivity {
         setContentView(R.layout.activity_third);
 
         tv=(TextView) findViewById(R.id.textview);
-        qwerty=(TextView) findViewById(R.id.qwerty);
 
 
          imgFile = new  File(String.valueOf(Camera2BasicFragment.mFile));
@@ -92,15 +82,8 @@ public class Third extends AppCompatActivity {
             tv.setText(Camera2BasicFragment.currentTime.toString());
 
         }
-        qwerty.setText(ag);
         savedBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.photo);
-        phd = BitmapFactory.decodeResource(getResources(),R.drawable.abc);
 
-    }
-
-    public void yo(View view)
-    {
-        qwerty.setText(ag);
     }
 
     public void cl(View view)
