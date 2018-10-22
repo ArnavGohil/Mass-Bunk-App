@@ -7,12 +7,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.arnavgohil.massbunkfinal.R;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -25,17 +28,56 @@ import static org.opencv.core.Core.absdiff;
 public class Third extends AppCompatActivity {
 
     public static boolean imgch;
-    TextView tv;
+    TextView tv,qwerty;
     File imgFile,file;
-    Bitmap myBitmap,savedBitmap;
+    Bitmap myBitmap,savedBitmap,phd;
     Uri img;
+    String ag;
 
+
+
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    Log.i("OpenCV", "OpenCV loaded successfully");
+                    int width = myBitmap.getWidth();
+                    int height = myBitmap.getHeight();
+                    Mat imgToProcess1 = new Mat(height, width, CvType.CV_8UC4);
+                    Mat  imgToProcess2 = new Mat(height, width, CvType.CV_8UC4);
+                    Mat  imgToProcess = new Mat(height, width, CvType.CV_8UC4);
+                    Mat abc=new Mat();
+                    Utils.bitmapToMat(myBitmap, imgToProcess1);
+                    Utils.bitmapToMat(savedBitmap, imgToProcess2);
+                    absdiff(imgToProcess1, imgToProcess2, imgToProcess);
+                    Utils.bitmapToMat(phd,abc);
+                    if(imgToProcess==abc)
+                    {
+                        imgch=true;
+                    }
+                    else
+                    {
+                        imgch=false;
+                    }
+
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
 
         tv=(TextView) findViewById(R.id.textview);
+        qwerty=(TextView) findViewById(R.id.qwerty);
+
 
          imgFile = new  File(String.valueOf(Camera2BasicFragment.mFile));
 
@@ -50,16 +92,20 @@ public class Third extends AppCompatActivity {
             tv.setText(Camera2BasicFragment.currentTime.toString());
 
         }
-
+        qwerty.setText(ag);
         savedBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.photo);
+        phd = BitmapFactory.decodeResource(getResources(),R.drawable.abc);
 
-        imgch=isImgch(myBitmap,savedBitmap);
+    }
 
+    public void yo(View view)
+    {
+        qwerty.setText(ag);
     }
 
     public void cl(View view)
     {
-        if(imgch==true)
+       if(imgch==true)
         {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("*/*");
@@ -72,7 +118,7 @@ public class Third extends AppCompatActivity {
         }
         else
         {
-            Intent intent = new Intent(Intent.ACTION_SEND);
+             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("*/*");
             intent.putExtra(Intent.EXTRA_EMAIL, "arnav.gohil04@gmail.com");
 
@@ -81,28 +127,8 @@ public class Third extends AppCompatActivity {
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
-        }
-    }
 
-    public boolean isImgch(Bitmap img1,Bitmap img2)
-    {
-        int width = img1.getWidth();
-        int height = img2.getHeight();
 
-        Mat imgToProcess1 = new Mat(height, width, CvType.CV_8UC4);
-        Mat  imgToProcess2 = new Mat(height, width, CvType.CV_8UC4);
-        Mat  imgToProcess = new Mat(height, width, CvType.CV_8UC4);
-
-        Utils.bitmapToMat(img1, imgToProcess1);
-        Utils.bitmapToMat(img2, imgToProcess1);
-        absdiff(imgToProcess1, imgToProcess2, imgToProcess);
-        if(imgToProcess==null)
-        {
-            return true;
-        }
-        else
-        {
-           return false;
         }
     }
 }

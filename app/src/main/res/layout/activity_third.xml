@@ -33,4 +33,10 @@
         android:text="SEND"
         android:onClick="cl"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:id="@+id/qwerty"/>
+
 </LinearLayout>
